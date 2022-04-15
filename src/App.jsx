@@ -8,18 +8,14 @@ const App = () => {
   const [waveCount, setWaveCount] = useState(0);
 
   const getTotalCount = async () => {
+    const {ethereum} = window;
     const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
+    const signer = provider.getSigner();
     const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
-    //const Count = parseInt(await wavePortalContract.getWaveCount, 10);
+    const count = parseInt(await wavePortalContract.getWaveCount(), 10);
     
-    const value = await wavePortalContract.getWaveCount();
-console.log(value);
-    
-    //setWaveCount(Count);
-    
-    
-  }
+    setWaveCount(count);
+  };
 
   useEffect(() => {
     getTotalCount();
@@ -29,16 +25,6 @@ console.log(value);
   const contractAddress = "0xd5f08a0ae197482FA808cE84E00E97d940dBD26E"
 
   const contractABI = abi.abi
-
-  
-
-  
-
-  
-  
-  
-
-  
 
   const checkIfWalletIsConnected = async () => {
     try {
@@ -58,12 +44,12 @@ console.log(value);
         console.log("Found an authorized account:", account);
         setCurrentAccount(account);
       } else {
-        console.log("No authorized account found")
+          console.log("No authorized account found")
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   /**
   * Implement your connectWallet method here
